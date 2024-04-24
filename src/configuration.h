@@ -17,10 +17,10 @@
 //
 #define MOTORSTEPS 200
 #define RPM 60
-#define MICROSTEPS 64
-#define STALL_VALUE 27  // [0..255]
+#define MICROSTEPS 32
+#define STALL_VALUE 25  // [0..255]
 #define MOTORCURRENT 2000
 
 
-#define TargetChangeAxisStall 27
+#define TargetChangeAxisStall 50
 #define Z2Stall 27

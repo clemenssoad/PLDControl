@@ -12,11 +12,11 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "c:/Promotion/VisualStudio/PLDStepper/PlatformIO/Projects/PLDControl/.pio/build/octopus/firmware.elf",
+            "executable": "c:/FKammer/PLDControl/.pio/build/octopus/firmware.elf",
             "projectEnvName": "octopus",
-            "toolchainBinDir": "C:/Users/cp34rota/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "toolchainBinDir": "C:/Users/PLD/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "internalConsoleOptions": "openOnSessionStart",
-            "svdPath": "C:/Users/cp34rota/.platformio/platforms/ststm32/misc/svd/STM32F446x.svd",
+            "svdPath": "C:/Users/PLD/.platformio/platforms/ststm32/misc/svd/STM32F446x.svd",
             "preLaunchTask": {
                 "type": "PlatformIO",
                 "task": "Pre-Debug"
@@ -26,21 +26,21 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "c:/Promotion/VisualStudio/PLDStepper/PlatformIO/Projects/PLDControl/.pio/build/octopus/firmware.elf",
+            "executable": "c:/FKammer/PLDControl/.pio/build/octopus/firmware.elf",
             "projectEnvName": "octopus",
-            "toolchainBinDir": "C:/Users/cp34rota/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "toolchainBinDir": "C:/Users/PLD/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "internalConsoleOptions": "openOnSessionStart",
-            "svdPath": "C:/Users/cp34rota/.platformio/platforms/ststm32/misc/svd/STM32F446x.svd"
+            "svdPath": "C:/Users/PLD/.platformio/platforms/ststm32/misc/svd/STM32F446x.svd"
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "c:/Promotion/VisualStudio/PLDStepper/PlatformIO/Projects/PLDControl/.pio/build/octopus/firmware.elf",
+            "executable": "c:/FKammer/PLDControl/.pio/build/octopus/firmware.elf",
             "projectEnvName": "octopus",
-            "toolchainBinDir": "C:/Users/cp34rota/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "toolchainBinDir": "C:/Users/PLD/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "internalConsoleOptions": "openOnSessionStart",
-            "svdPath": "C:/Users/cp34rota/.platformio/platforms/ststm32/misc/svd/STM32F446x.svd",
+            "svdPath": "C:/Users/PLD/.platformio/platforms/ststm32/misc/svd/STM32F446x.svd",
             "loadMode": "manual"
         }
     ]

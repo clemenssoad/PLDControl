@@ -8,7 +8,7 @@
 #include <Axis.h>
 
 float steps_per_mm = 0.035369 * MICROSTEPS * MOTORSTEPS;
-int steps_per_targetchanger_rotation = MICROSTEPS * MOTORSTEPS * 10;
+long steps_per_targetchanger_rotation = MICROSTEPS * MOTORSTEPS * 10;
 float Target1 = 0;
 float Target2 = steps_per_targetchanger_rotation * 1 / 4;
 float Target3 = steps_per_targetchanger_rotation * 1 / 2;
@@ -67,17 +67,16 @@ void DRIVER_SETUP()
 {
   driverX.beginSerial(115200); // X driver Coms begin
   Serial.println("Driver X Enabled\n");
-  driverX.beginSerial(115200);
   driverX.begin();
   driverX.toff(4);
   driverX.blank_time(24);
   driverX.rms_current(MOTORCURRENT); // mA
-  driverX.microsteps(MICROSTEPS);
   driverX.TCOOLTHRS(0xFFFFF); // 20bit max
   driverX.semin(5);
   driverX.semax(2);
   driverX.sedn(0b01);
   driverX.SGTHRS(TargetChangeAxisStall);
+  driverX.microsteps(MICROSTEPS);
 
   driverY.beginSerial(115200);
   driverY.begin();
@@ -173,21 +172,21 @@ void DRIVER_SETUP()
 void SetUpSteppers()
 {
   XStepper.setEnablePin(X_ENABLE_PIN);
-  XStepper.setPinsInverted(false,false,true);
-  XStepper.setAcceleration(MICROSTEPS*MOTORSTEPS*4);
-  XStepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*3);
+  XStepper.setPinsInverted(true,false,true);
+  XStepper.setAcceleration(MICROSTEPS*MOTORSTEPS);
+  XStepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/3);
   XStepper.enableOutputs();
 
   E0Stepper.setEnablePin(E0_ENABLE_PIN);
   E0Stepper.setPinsInverted(false,false,true);
-  E0Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS*4);
-  E0Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*3);
+  E0Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS);
+  E0Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/2);
   E0Stepper.enableOutputs();
 
   Z2Stepper.setEnablePin(Z2_ENABLE_PIN);
   Z2Stepper.setPinsInverted(false,false,true);
-  Z2Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS*4);
-  Z2Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*3);
+  Z2Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS*2);
+  Z2Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/2);
   Z2Stepper.enableOutputs();
 
   int AngleCount = sizeof(StartAngles);

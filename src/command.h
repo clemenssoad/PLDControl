@@ -1,11 +1,11 @@
 #include <String>
 void Command(String command, String argument) {
   
-  Serial.println("command = " + command);  
-  Serial.println("argument = " + argument);  
+  // Serial.println("command = " + command);  
+  // Serial.println("argument = " + argument);  
   if (command == "SETTARGET") {
     TargetIndex = argument.toInt() - 1;
-    TargetChangeAxis.moveTo(TARGET[TargetIndex] + y_max * steps_per_mm);
+    TargetChangeAxis.moveTo(TARGET[TargetIndex] + y_max);
     Serial.println("o");
     return;
   }
@@ -22,8 +22,14 @@ void Command(String command, String argument) {
     return;
   }
 
+  if (command == "FULLROTATION")
+  {
+    TargetChangeAxis.moveTo(steps_per_targetchanger_rotation/steps_per_mm);
+    Serial.println("o");
+  }
+
   if (command == "GETSTATE") {
-    float y = float(TargetChangeAxis.currentPosition - TARGET[TargetIndex]) / float(steps_per_mm);
+    float y = float(TargetChangeAxis.currentPosition - TARGET[TargetIndex]);
     if (abs(y) <= y_max*1.1) {
       Serial.print("STATE:" + String(TargetIndex + 1, DEC) + ",");
       Serial.print(y, DEC);
@@ -57,6 +63,14 @@ void Command(String command, String argument) {
 
 
     return;
+  }
+
+  if (command == "SETTCSTALL")
+  {
+    Serial.flush();
+    float stall = argument.toInt();
+    driverX.SGTHRS(stall);
+    Serial.println("o");   
   }
 
   if (command == "MOVETC") {

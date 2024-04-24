@@ -8,6 +8,7 @@ class Axis
 {
 private:
     bool isHoming = false;
+    long home_start;
 
 public:
 //Properties

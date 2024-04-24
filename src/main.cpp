@@ -89,6 +89,9 @@ void setup() {
 
 }
 
+
+
+
 void loop() {
 
  while (Serial.available()) {
@@ -130,10 +133,24 @@ void loop() {
    TargetChangeAxis.run();
    if (millis() - lastmillis1 > 100) {
     lastmillis1 = millis();
-    Serial.println("Z2:" + String(Z2Axis.currentPosition,DEC) + " X: " + String(TargetChangeAxis.currentPosition,DEC));
+    //Serial.println("Z2:" + String(Z2Axis.currentPosition,3) + " X: " + String(TargetChangeAxis.currentPosition,3));
    }
-
-
+   // Wiggle
+  if (millis() - lastmillis2 > 1) {
+    if (target_wiggle == 1) {
+      time_step = time_step + 1;
+      t = (float)2 * time_step / WigglePeriod;
+      target_position = sqrt(2) * y_max * sqrt(abs(t - round(t))) * sign(t / 2 - round(t / 2));
+      TargetChangeAxis.moveTo(TARGET[TargetIndex] + target_position);
+    }
+    if (target_ccswiggle == 1) {
+      time_step = time_step + 1;
+      t = (float)2 * time_step / WigglePeriod;
+      target_position = sqrt(2) * y_max * sqrt(abs(t - round(t)));
+      TargetChangeAxis.moveTo(TARGET[TargetIndex] + target_position);
+    }
+    lastmillis2 = millis();
+  }
 }
 // }
 

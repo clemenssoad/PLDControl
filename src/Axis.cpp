@@ -6,7 +6,7 @@ Axis::Axis(AccelStepper *stepper, TMC2209Stepper *driver,int EndStopPin,float st
     this->stepper = stepper;
     this->driver = driver;
     this->EndStopPin = EndStopPin;
-    this->steps_per_mm = steps_per_mm;
+    this->steps_per_mm = steps_per_unit;
     pinMode(EndStopPin,INPUT_PULLDOWN);
 }
 
@@ -16,14 +16,19 @@ void Axis::run()
     this->currentPosition = (float) this->stepper->currentPosition()*1/this->steps_per_mm;
     if (this->isHoming == true)
     {
-        this->stepper->move(-100);
-        if (digitalRead(this->EndStopPin) == true)
+        if (millis() - this->home_start  > 1000)
         {
-            this->isHoming = false;
-            this->stepper->stop();
-            this->stepper->setCurrentPosition(0);
-            Serial.println("Homed");
+            this->stepper->move(-100);
+            if (digitalRead(this->EndStopPin) == true)
+            {
+                this->isHoming = false;
+                this->stepper->stop();
+                this->stepper->setCurrentPosition(0);
+                this->driver->rms_current(2000);
+                Serial.println("Homed");
+            }
         }
+
     }
 
 }
@@ -48,7 +53,10 @@ void Axis::setCurrentPosition(float position)
 
 void Axis::HomeAxis()
 {
+    this->home_start = millis();
     this->isHoming = true;
+    this->move(10);
+    this->driver->rms_current(500);
 }
 
 
