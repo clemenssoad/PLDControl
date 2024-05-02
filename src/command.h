@@ -32,12 +32,12 @@ void Command(String command, String argument) {
     float y = float(TargetChangeAxis.currentPosition - TARGET[TargetIndex]);
     if (abs(y) <= y_max*1.1) {
       Serial.print("STATE:" + String(TargetIndex + 1, DEC) + ",");
-      Serial.print(y, DEC);
+      Serial.print(y, 3);
       Serial.print(",");
-      Serial.println(TargetChangeAxis.currentPosition, DEC);
+      Serial.println(TargetChangeAxis.currentPosition, 3);
 
     } else {
-      Serial.println("STATE:0," + String(y, DEC));
+      Serial.println("STATE:0," + String(y, 3));
     }
     return;
   }
