@@ -31,8 +31,6 @@ int array_index = 0;
 
 
 
-
-
 bool cmd_done = false;
 bool arg_done = false;
 bool record_serial_array = false;
@@ -46,7 +44,8 @@ float last_saved_position;
 
 String cmd = "";
 String cmd_temp = "";
-String arg = "";
+String arg1 = "";
+String arg2 = "";
 String arg_temp = "";
 char in_char;
 int l = 0;
@@ -114,14 +113,26 @@ void loop() {
           else {
             arg_temp += in_char;
             l = l + 1;
+            if (in_char == ' ') {
+       //       Serial.println("Argument 1 entered: ");
+       //       Serial.println(arg1);
+              arg1 = arg_temp;
+              arg_temp = "";
+            }            
             if (in_char == '\n') {
-              //      Serial.println("Argument entered: ");
-              //    Serial.println(arg_temp);
-              arg = arg_temp;
+              arg2 = arg_temp;
+        //      Serial.println("Argument 2 entered: ");
+        //      Serial.println(arg2);
+            if (arg1 == "")
+            {
+              arg1 = arg2;
+            }
               arg_temp = "";
               l = 0;
-              Command(cmd, arg);
+              Command(cmd, arg1, arg2);
               cmd_done = false;
+              arg1 = "";
+              arg2 = "";
             }
           }
         }
@@ -129,11 +140,13 @@ void loop() {
   
    in_char = 'X';
    TargetSubstrateAxes.run();
-   Z2Axis.run();
+   M1Axis.run();
+   M2Axis.run();
+   M3Axis.run();  
    TargetChangeAxis.run();
    if (millis() - lastmillis1 > 100) {
     lastmillis1 = millis();
-    //Serial.println("Z2:" + String(Z2Axis.currentPosition,3) + " X: " + String(TargetChangeAxis.currentPosition,3));
+  //  Serial.println(" X: " + String(TargetChangeAxis.currentPosition,3));
    }
    // Wiggle
   if (millis() - lastmillis2 > 1) {

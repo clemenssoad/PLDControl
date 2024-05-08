@@ -1,8 +1,9 @@
 #include <String>
-void Command(String command, String argument) {
+void Command(String command, String argument, String argument2) {
   
-  // Serial.println("command = " + command);  
-  // Serial.println("argument = " + argument);  
+  //  Serial.println("command = " + command);  
+  //  Serial.println("argument1 = " + argument);  
+  //   Serial.println("argument2 = " + argument2);    
   if (command == "SETTARGET") {
     TargetIndex = argument.toInt() - 1;
     TargetChangeAxis.moveTo(TARGET[TargetIndex] + y_max);
@@ -30,15 +31,19 @@ void Command(String command, String argument) {
 
   if (command == "GETSTATE") {
     float y = float(TargetChangeAxis.currentPosition - TARGET[TargetIndex]);
-    if (abs(y) <= y_max*1.1) {
-      Serial.print("STATE:" + String(TargetIndex + 1, DEC) + ",");
-      Serial.print(y, 3);
-      Serial.print(",");
-      Serial.println(TargetChangeAxis.currentPosition, 3);
-
-    } else {
-      Serial.println("STATE:0," + String(y, 3));
+    int target = 0;
+    if (abs(y) <= y_max*1.1) 
+    {
+      target = TargetIndex + 1;
     }
+    Serial.print("STATE:" + String(target, DEC) + ",");
+    Serial.print(y, 3);
+    Serial.print(",");
+    Serial.print(M1Axis.currentPosition, 3);
+    Serial.print(",");
+    Serial.print(M2Axis.currentPosition, 3);
+    Serial.print(",");
+    Serial.println(M3Axis.currentPosition, 3);
     return;
   }
 
@@ -73,13 +78,96 @@ void Command(String command, String argument) {
     Serial.println("o");   
   }
 
-  if (command == "MOVETC") {
+  if (command == "MOVETO") {
     Serial.flush();
     float distance = argument.toFloat();
-    TargetChangeAxis.move(distance);
+    if (argument2.toInt() == 0)
+    {
+      TargetChangeAxis.moveTo(distance);
+    }
+    if (argument2.toInt() == 1)
+    {
+      M1Axis.moveTo(distance);
+    }
+    if (argument2.toInt() == 2)
+    {
+      M2Axis.moveTo(distance);
+    }
+    if (argument2.toInt() == 3)
+    {
+      M3Axis.moveTo(distance);
+    }
     Serial.println("o");
     return;
   }
+
+  if (command == "MOVE") {
+    Serial.flush();
+    float distance = argument.toFloat();
+    if (argument2.toInt() == 0)
+    {
+      TargetChangeAxis.move(distance);
+    }
+    if (argument2.toInt() == 1)
+    {
+      M1Axis.move(distance);
+    }
+    if (argument2.toInt() == 2)
+    {
+      M2Axis.move(distance);
+    }
+    if (argument2.toInt() == 3)
+    {
+      M3Axis.move(distance);
+    }
+    Serial.println("o");
+    return;
+  }
+
+  if (command == "SETACCELERATION") {
+    Serial.flush();
+    float a = argument.toFloat();
+    if (argument2.toInt() == 0)
+    {
+      TargetChangeAxis.setAcceleration(a);
+    }
+    if (argument2.toInt() == 1)
+    {
+      M1Axis.setAcceleration(a);
+    }
+    if (argument2.toInt() == 2)
+    {
+      M2Axis.setAcceleration(a);
+    }
+    if (argument2.toInt() == 3)
+    {
+      M3Axis.setAcceleration(a);
+    }
+    Serial.println("o");
+    return;
+  }  
+  if (command == "SETMAXSPEED") {
+    Serial.flush();
+    float v = argument.toFloat();
+    if (argument2.toInt() == 0)
+    {
+      TargetChangeAxis.setMaxSpeed(v);
+    }
+    if (argument2.toInt() == 1)
+    {
+      M1Axis.setMaxSpeed(v);
+    }
+    if (argument2.toInt() == 2)
+    {
+      M2Axis.setMaxSpeed(v);
+    }
+    if (argument2.toInt() == 3)
+    {
+      M3Axis.setMaxSpeed(v);
+    }
+    Serial.println("o");
+    return;
+  }  
 
    if (command == "HOMETC") {
     Serial.flush();
@@ -88,20 +176,20 @@ void Command(String command, String argument) {
     return;
   } 
 
-  if (command == "MOVEZ2") {
-    Serial.flush();
-    float distance = argument.toFloat();
-    Z2Axis.move(distance);
-    Serial.println("o");
-    return;
-  }
+  // if (command == "MOVEZ2") {
+  //   Serial.flush();
+  //   float distance = argument.toFloat();
+  //   Z2Axis.move(distance);
+  //   Serial.println("o");
+  //   return;
+  // }
 
-  if (command == "HOMEZ2") {
-    Serial.flush();
-    Z2Axis.HomeAxis();
-    Serial.println("o");
-    return;
-  }
+  // if (command == "HOMEZ2") {
+  //   Serial.flush();
+  //   Z2Axis.HomeAxis();
+  //   Serial.println("o");
+  //   return;
+  // }
 
 
   if (command == "SETWIGGLEPERIOD") {

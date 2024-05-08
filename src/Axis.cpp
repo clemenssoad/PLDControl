@@ -51,6 +51,15 @@ void Axis::setCurrentPosition(float position)
     this->stepper->setCurrentPosition(steps);
 }
 
+void Axis::setAcceleration(float a)
+{
+    this->stepper->setAcceleration(a*this->steps_per_mm);
+}
+void Axis::setMaxSpeed(float v)
+{
+    this->stepper->setMaxSpeed(v*this->steps_per_mm);
+}
+
 void Axis::HomeAxis()
 {
     this->home_start = millis();

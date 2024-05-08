@@ -44,7 +44,7 @@ class PLDStepper {
 	int target_transmission[2] = {1,2}; // {1,2}
 
     int substrateRotationSpeed = 0;	 // steps/s
-	int substrate_transmission[2] = {29,4}; // {29,4}
+	int substrate_transmission[2] = {1,3}; // {29,4}
 	//
 	void SetTrigPin(int pin);
 	void StartPulsing(long pulses);

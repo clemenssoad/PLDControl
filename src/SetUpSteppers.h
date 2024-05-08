@@ -7,13 +7,7 @@
 #include <TMCStepper_UTILITY.h>
 #include <Axis.h>
 
-float steps_per_mm = 0.035369 * MICROSTEPS * MOTORSTEPS;
-long steps_per_targetchanger_rotation = MICROSTEPS * MOTORSTEPS * 10;
-float Target1 = 0;
-float Target2 = steps_per_targetchanger_rotation * 1 / 4;
-float Target3 = steps_per_targetchanger_rotation * 1 / 2;
-float Target4 = steps_per_targetchanger_rotation * 0.75;
-float TARGET[4] = { Target1/steps_per_mm, Target2/steps_per_mm, Target3/steps_per_mm, Target4/steps_per_mm };
+
 
 
 int StartAngles[5] = {0,10,170,190,350};
@@ -57,7 +51,11 @@ TMC2209Stepper driverE3(E3_SERIAL_RX_PIN, E3_SERIAL_TX_PIN, .11f, DRIVER_ADDRESS
 // Axis SetUp
 PLDStepper TargetSubstrateAxes(&YStepper,&ZStepper);
 
-Axis Z2Axis(&Z2Stepper,&driverZ2,Z2_DIAG_PIN, 100.0,30);
+
+Axis M1Axis(&Z2Stepper,&driverZ2,Z2_DIAG_PIN,shield_steps_per_mm,30);
+Axis M2Axis(&E0Stepper,&driverE0,E0_DIAG_PIN, shield_steps_per_mm,30);
+Axis M3Axis(&E1Stepper,&driverE1,E1_DIAG_PIN, shield_steps_per_mm,30);
+
 
 Axis TargetChangeAxis(&XStepper,&driverX,X_DIAG_PIN, steps_per_mm,30);
 
@@ -172,22 +170,40 @@ void DRIVER_SETUP()
 void SetUpSteppers()
 {
   XStepper.setEnablePin(X_ENABLE_PIN);
-  XStepper.setPinsInverted(true,false,true);
+  XStepper.setPinsInverted(false,false,true);
   XStepper.setAcceleration(MICROSTEPS*MOTORSTEPS);
   XStepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/3);
   XStepper.enableOutputs();
 
-  E0Stepper.setEnablePin(E0_ENABLE_PIN);
-  E0Stepper.setPinsInverted(false,false,true);
-  E0Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS);
-  E0Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/2);
-  E0Stepper.enableOutputs();
+  // YStepper.setEnablePin(Y_ENABLE_PIN);
+  // YStepper.setPinsInverted(false,false,true);
+  // YStepper.setAcceleration(MICROSTEPS*MOTORSTEPS);
+  // YStepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/3);
+  // YStepper.enableOutputs();
+
+  // ZStepper.setEnablePin(Z_ENABLE_PIN);
+  // ZStepper.setPinsInverted(false,false,true);
+  // ZStepper.setAcceleration(MICROSTEPS*MOTORSTEPS);
+  // ZStepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/2);
+  // ZStepper.enableOutputs();
 
   Z2Stepper.setEnablePin(Z2_ENABLE_PIN);
   Z2Stepper.setPinsInverted(false,false,true);
   Z2Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS*2);
   Z2Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/2);
   Z2Stepper.enableOutputs();
+
+  E1Stepper.setEnablePin(E1_ENABLE_PIN);
+  E1Stepper.setPinsInverted(false,false,true);
+  E1Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS*2);
+  E1Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/2);
+  E1Stepper.enableOutputs();
+
+  E0Stepper.setEnablePin(E0_ENABLE_PIN);
+  E0Stepper.setPinsInverted(false,false,true);
+  E0Stepper.setAcceleration(MICROSTEPS*MOTORSTEPS);
+  E0Stepper.setMaxSpeed(MICROSTEPS*MOTORSTEPS*1/2);
+  E0Stepper.enableOutputs();
 
   int AngleCount = sizeof(StartAngles);
   TargetSubstrateAxes.SetAzimuthalBurst(Frequencies,StartAngles,EndAngles,AngleCount);

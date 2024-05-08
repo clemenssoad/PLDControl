@@ -19,6 +19,8 @@ public:
     void run();
     void moveTo(float position);
     void move(float distance);
+    void setAcceleration(float a);
+    void setMaxSpeed(float v);
     void HomeAxis();
     void ISR();
     void attachInterrupt();
